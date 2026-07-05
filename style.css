@@ -116,6 +116,80 @@ details summary {
   margin-top: 8px;
 }
 
+.meal-select-label {
+  max-width: 200px;
+  margin-bottom: 12px;
+}
+
+.food-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.tab-btn.active {
+  background: var(--protein);
+  color: white;
+  border-color: var(--protein);
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.food-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--bg);
+}
+
+.food-card-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.food-card-serving {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.food-card-macros {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.food-card-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.food-card-qty {
+  width: 55px;
+  padding: 4px 6px;
+}
+
+.food-card-add {
+  flex: 1;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+}
+
 .progress-panel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));

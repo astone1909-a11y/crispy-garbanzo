@@ -29,29 +29,26 @@
 
   <section class="add-food-panel">
     <h2>Log Food</h2>
-    <form id="add-food-form">
-      <div class="form-row">
-        <label>Meal
-          <select id="meal-select">
-            <option>Breakfast</option>
-            <option>Lunch</option>
-            <option>Dinner</option>
-            <option>Snack</option>
-          </select>
-        </label>
-        <label>Quick add
-          <select id="quick-add-select">
-            <option value="">-- choose a food --</option>
-          </select>
-        </label>
-        <label>Servings
-          <input type="number" id="quick-add-qty" value="1" min="0.1" step="0.1">
-        </label>
-        <button type="button" id="quick-add-btn">Add</button>
-      </div>
+    <label class="meal-select-label">Meal
+      <select id="meal-select">
+        <option>Breakfast</option>
+        <option>Lunch</option>
+        <option>Dinner</option>
+        <option>Snack</option>
+      </select>
+    </label>
 
-      <details>
-        <summary>Or enter a custom food</summary>
+    <div class="food-tabs" id="food-tabs">
+      <button type="button" class="tab-btn active" data-category="protein">Protein</button>
+      <button type="button" class="tab-btn" data-category="carbs">Carbs</button>
+      <button type="button" class="tab-btn" data-category="fat">Fat</button>
+      <button type="button" class="tab-btn" data-category="other">Other</button>
+    </div>
+    <div class="food-grid" id="food-grid"></div>
+
+    <details>
+      <summary>Or enter a custom food</summary>
+      <form id="add-food-form">
         <div class="form-row">
           <label>Name <input type="text" id="custom-name" placeholder="e.g. Protein bar"></label>
           <label>Calories <input type="number" id="custom-cal" min="0" step="1"></label>
@@ -60,8 +57,8 @@
           <label>Fat (g) <input type="number" id="custom-fat" min="0" step="0.1"></label>
           <button type="submit">Add custom food</button>
         </div>
-      </details>
-    </form>
+      </form>
+    </details>
   </section>
 
   <section class="log-panel">

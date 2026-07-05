@@ -35,13 +35,14 @@ const targetProtein = document.getElementById("target-protein");
 const targetCarbs = document.getElementById("target-carbs");
 const targetFat = document.getElementById("target-fat");
 const progressPanel = document.getElementById("progress-panel");
-const quickAddSelect = document.getElementById("quick-add-select");
-const quickAddQty = document.getElementById("quick-add-qty");
-const quickAddBtn = document.getElementById("quick-add-btn");
+const foodTabs = document.getElementById("food-tabs");
+const foodGrid = document.getElementById("food-grid");
 const mealSelect = document.getElementById("meal-select");
 const addFoodForm = document.getElementById("add-food-form");
 const logContainer = document.getElementById("log-container");
 const clearDayBtn = document.getElementById("clear-day-btn");
+
+let activeCategory = "protein";
 
 function init() {
   datePicker.value = state.date;
@@ -50,14 +51,51 @@ function init() {
   targetCarbs.value = state.targets.carbs;
   targetFat.value = state.targets.fat;
 
-  FOOD_DB.forEach((food, i) => {
-    const opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = `${food.name} (${food.serving})`;
-    quickAddSelect.appendChild(opt);
-  });
-
+  renderFoodGrid();
   render();
+}
+
+foodTabs.addEventListener("click", (evt) => {
+  const btn = evt.target.closest(".tab-btn");
+  if (!btn) return;
+  activeCategory = btn.dataset.category;
+  foodTabs.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b === btn));
+  renderFoodGrid();
+});
+
+function renderFoodGrid() {
+  const foods = FOOD_DB.filter((f) => f.category === activeCategory);
+  foodGrid.innerHTML = foods
+    .map(
+      (food, i) => `
+      <div class="food-card">
+        <div class="food-card-name">${escapeHtml(food.name)}</div>
+        <div class="food-card-serving">${food.serving} · ${food.cal} kcal</div>
+        <div class="food-card-macros">P${food.protein} C${food.carbs} F${food.fat}</div>
+        <div class="food-card-actions">
+          <input type="number" class="food-card-qty" value="1" min="0.1" step="0.1" data-idx="${i}">
+          <button type="button" class="food-card-add" data-idx="${i}">Add</button>
+        </div>
+      </div>
+    `
+    )
+    .join("");
+
+  foodGrid.querySelectorAll(".food-card-add").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = Number(btn.dataset.idx);
+      const food = foods[idx];
+      const qtyInput = foodGrid.querySelector(`.food-card-qty[data-idx="${idx}"]`);
+      const qty = Number(qtyInput.value) || 1;
+      addEntry({
+        name: qty === 1 ? food.name : `${food.name} x${qty}`,
+        cal: food.cal * qty,
+        protein: food.protein * qty,
+        carbs: food.carbs * qty,
+        fat: food.fat * qty,
+      });
+    });
+  });
 }
 
 function render() {
@@ -180,20 +218,6 @@ datePicker.addEventListener("change", () => {
     };
     saveTargets(state.targets);
     renderProgress();
-  });
-});
-
-quickAddBtn.addEventListener("click", () => {
-  const idx = quickAddSelect.value;
-  if (idx === "") return;
-  const food = FOOD_DB[idx];
-  const qty = Number(quickAddQty.value) || 1;
-  addEntry({
-    name: `${food.name} x${qty}`,
-    cal: food.cal * qty,
-    protein: food.protein * qty,
-    carbs: food.carbs * qty,
-    fat: food.fat * qty,
   });
 });
 
