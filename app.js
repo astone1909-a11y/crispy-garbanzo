@@ -68,7 +68,7 @@ function renderFoodGrid() {
   foodGrid.innerHTML = foods
     .map(
       (food, i) => `
-      <div class="food-card">
+      <div class="food-card cat-${food.category}">
         <div class="food-card-name">${escapeHtml(food.name)}</div>
         <div class="food-card-serving">${food.serving} · ${food.cal} kcal</div>
         <div class="food-card-macros">P${food.protein} C${food.carbs} F${food.fat}</div>
@@ -120,23 +120,24 @@ function renderProgress() {
   const t = totals();
   const targets = state.targets;
   const items = [
-    { key: "cal", cls: "cal", label: "Calories", unit: "kcal", value: t.cal, target: targets.cal },
-    { key: "protein", cls: "protein", label: "Protein", unit: "g", value: t.protein, target: targets.protein },
-    { key: "carbs", cls: "carbs", label: "Carbs", unit: "g", value: t.carbs, target: targets.carbs },
-    { key: "fat", cls: "fat", label: "Fat", unit: "g", value: t.fat, target: targets.fat },
+    { key: "cal", cls: "cal", label: "🔥 Calories", unit: "kcal", value: t.cal, target: targets.cal },
+    { key: "protein", cls: "protein", label: "🍗 Protein", unit: "g", value: t.protein, target: targets.protein },
+    { key: "carbs", cls: "carbs", label: "🍞 Carbs", unit: "g", value: t.carbs, target: targets.carbs },
+    { key: "fat", cls: "fat", label: "🥑 Fat", unit: "g", value: t.fat, target: targets.fat },
   ];
 
   progressPanel.innerHTML = items
     .map((item) => {
       const pct = item.target > 0 ? (item.value / item.target) * 100 : 0;
       const over = pct > 100;
+      const nailedIt = pct >= 95 && pct <= 105;
       const clampedPct = Math.min(pct, 100);
       const remaining = item.target - item.value;
       return `
-        <div class="progress-item ${item.cls}${over ? " over" : ""}">
+        <div class="progress-item ${item.cls}${over ? " over" : ""}${nailedIt ? " nailed" : ""}">
           <div class="label-row">
-            <span class="name">${item.label}</span>
-            <span>${round(item.value)} / ${round(item.target)} ${item.unit}</span>
+            <span class="name">${item.label}${nailedIt ? " 🎉" : ""}</span>
+            <span>${round(item.value)} / ${round(item.target)}</span>
           </div>
           <div class="progress-bar-track">
             <div class="progress-bar-fill" style="width:${clampedPct}%"></div>
