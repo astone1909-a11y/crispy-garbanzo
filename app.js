@@ -38,6 +38,9 @@ const progressPanel = document.getElementById("progress-panel");
 const foodTabs = document.getElementById("food-tabs");
 const foodGrid = document.getElementById("food-grid");
 const mealSelect = document.getElementById("meal-select");
+const typeFoodForm = document.getElementById("type-food-form");
+const typeFoodInput = document.getElementById("type-food-input");
+const typeFoodFeedback = document.getElementById("type-food-feedback");
 const addFoodForm = document.getElementById("add-food-form");
 const logContainer = document.getElementById("log-container");
 const clearDayBtn = document.getElementById("clear-day-btn");
@@ -220,6 +223,28 @@ datePicker.addEventListener("change", () => {
     saveTargets(state.targets);
     renderProgress();
   });
+});
+
+let feedbackTimer = null;
+
+typeFoodForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  const text = typeFoodInput.value;
+  const parsed = parseFoodInput(text);
+  if (!parsed) return;
+
+  const { estimated, ...entry } = parsed;
+  addEntry(entry);
+
+  typeFoodInput.value = "";
+  typeFoodFeedback.textContent = estimated
+    ? `✅ Added "${entry.name}" — no exact match, so this is a rough estimate. Delete/edit it in the log if it's off.`
+    : `✅ Added "${entry.name}"`;
+  typeFoodFeedback.classList.toggle("estimated", estimated);
+  clearTimeout(feedbackTimer);
+  feedbackTimer = setTimeout(() => {
+    typeFoodFeedback.textContent = "";
+  }, 4000);
 });
 
 addFoodForm.addEventListener("submit", (evt) => {

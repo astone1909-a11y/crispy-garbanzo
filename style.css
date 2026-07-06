@@ -154,6 +154,49 @@ details summary {
   margin-bottom: 14px;
 }
 
+.type-food-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.type-food-row input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  font-size: 1rem;
+}
+
+.type-food-row input:focus {
+  border-color: var(--fat);
+}
+
+.type-food-row button {
+  border-radius: 999px;
+  padding: 10px 22px;
+}
+
+.type-food-feedback {
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cal);
+  margin-bottom: 8px;
+}
+
+.type-food-feedback.estimated {
+  color: var(--carbs);
+}
+
+.or-divider {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 12px 0;
+}
+
 .food-tabs {
   display: flex;
   gap: 8px;

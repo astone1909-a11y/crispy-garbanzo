@@ -38,6 +38,14 @@
       </select>
     </label>
 
+    <form id="type-food-form" class="type-food-row">
+      <input type="text" id="type-food-input" placeholder="⌨️ Type a food, e.g. &quot;2 eggs&quot; or &quot;150g chicken breast&quot; or &quot;a slice of pizza&quot;" autocomplete="off">
+      <button type="submit">Add</button>
+    </form>
+    <div id="type-food-feedback" class="type-food-feedback"></div>
+
+    <p class="or-divider">or browse foods below</p>
+
     <div class="food-tabs" id="food-tabs">
       <button type="button" class="tab-btn active" data-category="protein">🍗 Protein</button>
       <button type="button" class="tab-btn" data-category="carbs">🍞 Carbs</button>
@@ -69,6 +77,7 @@
 </div>
 
 <script src="foods.js"></script>
+<script src="parser.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
